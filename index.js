@@ -70,15 +70,16 @@ app.post("/generate-manga", upload.single("file"), async (req, res) => {
     const base64Image = fs.readFileSync(filePath, { encoding: "base64" });
     const imageData = `data:image/jpeg;base64,${base64Image}`;
 
-    const output = await replicate.run(
-  "412392713/animeganv3:9f0bd56b2b1cf39717a79b9268d8f98c267872c75e3ffb9e9f9b2cf78694bc3b",
-  {
-    input: {
-      image: imageData,
-      style: "AnimeGANv3_PortraitSketch", // ou outro válido
-    },
-  }
-);
+  const output = await replicate.run(
+      "black-forest-labs/flux-kontext-pro",
+      {
+        input: {
+          prompt:"Make this a 90s cartoon",
+          input_image: imageData,
+          output_format: "jpg"
+        }
+      }
+    );
 
 // Transforma ReadableStream em buffer
 const stream = output;
