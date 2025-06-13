@@ -25,7 +25,7 @@ app.use(express.static("public"));
 // === Webhook da Kiwify ===
 app.post("/webhook/kiwify", async (req, res) => {
 
-
+ console.log(req.body)
   const { buyer_email, product_name } = req.body;
 
     
