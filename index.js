@@ -25,26 +25,26 @@ app.use(express.static("public"));
 // === Webhook da Kiwify ===
 app.post("/webhook/kiwify", async (req, res) => {
 
- console.log(req.body)
-  const { buyer_email, product_name } = req.body;
+
+  const { Customer,Product } = req.body;
 
     
 
-  if (!buyer_email || !product_name) {
+  if (!Customer.email || !Product.product_name) {
     return res.status(400).send("Campos obrigatórios ausentes.");
   }
 
   let creditsToAdd = 0;
-  if (product_name === "Creditos magify") creditsToAdd = 6;
-  else if (product_name === "creditosmagify") creditsToAdd = 5;
+  if (Product.product_name === "Creditos magify") creditsToAdd = 6;
+  else if (Product.product_name === "creditosmagify") creditsToAdd = 5;
   else return res.status(400).send("Produto inválido.");
 
   try {
     const usersRef = db.collection("users");
-    const snapshot = await usersRef.where("email", "==", buyer_email).limit(1).get();
+    const snapshot = await usersRef.where("email", "==", Customer.email).limit(1).get();
 
     if (snapshot.empty) {
-      await usersRef.add({ email: buyer_email, credits: creditsToAdd });
+      await usersRef.add({ email: Customer.email, credits: creditsToAdd });
     } else {
       const userRef = snapshot.docs[0].ref;
       await userRef.update({
@@ -58,7 +58,6 @@ app.post("/webhook/kiwify", async (req, res) => {
     res.status(500).send("Erro interno no servidor.");
   }
 });
-
 // === Rota para gerar imagem estilo mangá ===
 app.post("/generate-manga", upload.single("file"), async (req, res) => {
   const filePath = req.file.path;
