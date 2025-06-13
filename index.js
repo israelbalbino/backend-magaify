@@ -108,12 +108,7 @@ const [url] = await file.getSignedUrl({
   expires: "03-09-2026",
 });
 
-// Salva no Firestore
-await db.collection("users").doc(uid).collection("history").add({
-  createdAt: new Date(),
-  imageUrl: url,
-  model: "AnimeGANv3_PortraitSketch",
-});
+
 
 // Limpa arquivos temporários
 fs.unlinkSync(filePath);
@@ -146,12 +141,6 @@ const imageUrlFromReplicate = output[0];
     const [signedUrl] = await file.getSignedUrl({
       action: "read",
       expires: "03-09-2026",
-    });
-
-    await db.collection("users").doc(uid).collection("history").add({
-      createdAt: new Date(),
-      imageUrl: signedUrl,
-      model: "AnimeGANv3_PortraitSketch",
     });
 
     fs.unlinkSync(filePath);
