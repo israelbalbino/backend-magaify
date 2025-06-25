@@ -36,7 +36,7 @@ app.post("/webhook/kiwify", async (req, res) => {
 
   let creditsToAdd = 0;
   if (Product.product_name === "Creditos magify") creditsToAdd = 6;
-  else if (Product.product_name === "creditosmagify") creditsToAdd = 5;
+  else if (Product.product_name === "creditosmagify") creditsToAdd = 1;
   else return res.status(400).send("Produto inválido.");
 
   try {
